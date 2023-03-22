@@ -1,9 +1,9 @@
 ---
 title: Test my blog
-date: 2023-03-21T11:47:34.028Z
-description: Get ready to read the blog post, this is the best post ever so be
-  prepared to read more in a few seconds or minutes.
 image: img/abstract.png
+date: 2023-03-21 11:47:34 UTC
+description: Get ready to read the blog post, this is the best post ever so be prepared
+  to read more in a few seconds or minutes.
 ---
 
 # For Kibana
@@ -20,10 +20,9 @@ It's not mandatory to install ReadonlyREST in all Elasticsearch nodes, but only 
 
 ### After purchasing
 
-If you didn't install it yet, download the latest [universal build](https://docs.readonlyrest.com/universal-builds) from our [download page](https://readonlyrest.com/download/) and install it manually.
-Alternatively, see below if you want to install it directly via the command line without downloading it from the browser.
+If you didn't install it yet, download the latest [universal build](https://docs.readonlyrest.com/universal-builds) from our [download page](https://readonlyrest.com/download/) and install it manually. Alternatively, see below if you want to install it directly via the command line without downloading it from the browser.
 
-Once the universal build plugin for Kibana is installed, you can activate it using an **activation key**. You can get one of these in the [ReadonlyREST customer portal](https://readonlyrest.com/customer) if you are a subscriber, otherwise, use the same portal to get a trial activation key (for PRO or Enterprise) for 30 days evaluation. 
+Once the universal build plugin for Kibana is installed, you can activate it using an **activation key**. You can get one of these in the [ReadonlyREST customer portal](https://readonlyrest.com/customer) if you are a subscriber, otherwise, use the same portal to get a trial activation key (for PRO or Enterprise) for 30 days evaluation.
 
 ### Version strings
 
@@ -33,8 +32,10 @@ All our plugins include in their file name a version string. For example the fil
 
 Given the version string `1.46.0_es8.6.0`
 
-* ReadonlyREST plugin code version `1.46.0`
-* Works only with Elasticsearch/Kibana version `8.6.0`
+*   ReadonlyREST plugin code version `1.46.0`
+    
+*   Works only with Elasticsearch/Kibana version `8.6.0`
+    
 
 The "es" stands for "Elastic stack" which used to mean the family of products made by Elastic which get released at the same time under the same version number. This was chosen **before** Elastic renamed their X-Pack commercial offer to Elastic Stack.
 
@@ -46,8 +47,10 @@ Our Kibana plugin file naming follows very similar rules:
 
 I.e. `readonlyrest_kbn_universal-1.46.0_es8.6.0.zip`
 
-* ReadonlyREST PRO plugin version 1.46.0
-* Works only with Kibana version 8.6.0
+*   ReadonlyREST PRO plugin version 1.46.0
+    
+*   Works only with Kibana version 8.6.0
+    
 
 ### When an update is out
 
@@ -59,11 +62,9 @@ If the update contains a security fix, it is very important that you take action
 
 You can install this as a normal Kibana plugin using the `bin/kibana-plugin` utility. Let's see a two ways to use this utility with ReadonlyREST.
 
-{% hint style="warning" %}
-**Don't forget**
+{% hint style="warning" %} **Don't forget**
 
-After Kibana 7.9.x, it's necessary to [patch](./#patching-kibana) Kibana after you install, otherwise ReadonlyREST will NOT work.
-{% endhint %}
+After Kibana 7.9.x, it's necessary to [patch](./#patching-kibana) Kibana after you install, otherwise ReadonlyREST will NOT work. {% endhint %}
 
 ### Installing via URL
 
@@ -98,8 +99,6 @@ $ curl -vvv  "https://api.beshu.tech/download/es?esVersion=8.6.0&pluginVersion=1
 [...]
 ```
 
-
-
 Now you are ready to [patch Kibana](./#patching-kibana).
 
 ### Installing from zip file
@@ -130,13 +129,11 @@ $ node/bin/node plugins/readonlyrestkbn/ror-tools.js unpatch
 
 ### Uninstalling
 
-{% hint style="info" %}
-To uninstall, you should unpatch Kibana first, then uninstall ReadonlyREST plugin. However **the Kibana plugin system uninstallation process is highly unreliable**.
+{% hint style="info" %} To uninstall, you should unpatch Kibana first, then uninstall ReadonlyREST plugin. However **the Kibana plugin system uninstallation process is highly unreliable**.
 
 So we highly recomend to throw away the entire Kibana directory, and start from scratch. Ideally, use ephemeral docker containers.
 
-Need inspiration? Try [ROR Docker demo](https://github.com/sscarduzio/ror-docker-demo)!
-{% endhint %}
+Need inspiration? Try [ROR Docker demo](https://github.com/sscarduzio/ror-docker-demo)! {% endhint %}
 
 To bring Kibana to its pre-patching original state, it's possible to unpatch.
 
@@ -158,31 +155,43 @@ $ bin/kibana-plugin remove readonlyrest_kbn
 
 To upgrade to a new version of a ReadonlyREST plugins for Kibana, you should:
 
-* [Unpatch Kibana](./#unpatching-kibana)
-* [Uninstall](#uninstalling) the old plugin
-* [Install](./#installation) the new one
-* [Patch Kibana](./#patching-kibana)
-* Restart Kibana
+*   [Unpatch Kibana](./#unpatching-kibana)
+    
+*   [Uninstall](#uninstalling) the old plugin
+    
+*   [Install](./#installation) the new one
+    
+*   [Patch Kibana](./#patching-kibana)
+    
+*   Restart Kibana
+    
 
 ### Major version upgrades when using multi-tenancy
+
 If you use multi-tenancy (Enterprise only), you will have one or more teanancy-specific kibana indices beyond the main `.kibana` (e.g. `.kibana_tenant1`, `.kibana_tenant2`, etc.).
 
 The first time you run Kibana after a major version upgrade (e.g. upgrading from Kibana 7.17.7 to Kibana 8.0.0), Kibana will run a [saved objects migration](https://www.elastic.co/guide/en/kibana/current/saved-object-migrations.html) on the default `.kibana` index, or whatever it finds configured as `kibana.index` in `kibana.yml`.
 
 Now, because you may have multiple kibana indices containing saved objects, you should apply the "saved object migration" to those indices as well.
 
-The only known safe - yet pedantic - way to do this is the following process: 
+The only known safe - yet pedantic - way to do this is the following process:
 
 **Preparation**
 
-* download the newer Kibana version in your computer (in the example, 8.0.0)
-* edit the `kibana.yml` to point to the same Elasticsearch cluster as your production Kibana (`elasticsearch.hosts` setting)
-* add the appropriate `elasticsearch.username` and `elasticsearch.password` credentials settings, same as in production
+*   download the newer Kibana version in your computer (in the example, 8.0.0)
+    
+*   edit the `kibana.yml` to point to the same Elasticsearch cluster as your production Kibana (`elasticsearch.hosts` setting)
+    
+*   add the appropriate `elasticsearch.username` and `elasticsearch.password` credentials settings, same as in production
+    
 
-**For each tenancy index** 
+**For each tenancy index**
 
-* configure `kibana.yml` with a `kibana.index: <tenancy kibana index>`
-* run Kibana for a few seconds, until you see something similar to these log lines:
+*   configure `kibana.yml` with a `kibana.index: <tenancy kibana index>`
+    
+*   run Kibana for a few seconds, until you see something similar to these log lines:
+    
+
 ```
   [savedobjects-service] Waiting until all Elasticsearch nodes are compatible with Kibana before starting saved objects migrations...
   [savedobjects-service] Starting saved objects migrations
@@ -195,7 +204,9 @@ The only known safe - yet pedantic - way to do this is the following process:
   [savedobjects-service] [.kibana] MARK_VERSION_INDEX_READY -> DONE. took: 20ms.
   [savedobjects-service] [.kibana] Migration completed after 143ms
 ```
-* now Kibana will have migrated the tenancy index, like it did with the main `.kibana` index.
+
+*   now Kibana will have migrated the tenancy index, like it did with the main `.kibana` index.
+    
 
 This is ugly, but the safest way available at the moment.
 
@@ -203,8 +214,10 @@ This is ugly, but the safest way available at the moment.
 
 RoR - just like Kibana itself - is meant to be used either with a proxy or without one.
 
-* If you decide to set the `server.basePath` property in `kibana.yml` and set `server.rewriteBasePath` into a `true`, RoR will be accessed directly and via a reverse proxy,
-* If you decided to rewrite the base path manually by your reverse proxy and set the `server.rewriteBasePath` property in `kibana.yml` into a `false`, be sure to access RoR via a proxy, as it will not work properly when accessed directly.
+*   If you decide to set the `server.basePath` property in `kibana.yml` and set `server.rewriteBasePath` into a `true`, RoR will be accessed directly and via a reverse proxy,
+    
+*   If you decided to rewrite the base path manually by your reverse proxy and set the `server.rewriteBasePath` property in `kibana.yml` into a `false`, be sure to access RoR via a proxy, as it will not work properly when accessed directly.
+    
 
 ## Configuration
 
@@ -226,19 +239,23 @@ When an Elasticsearch node restarts, the order of settings evaluation is the fol
 
 Best practices:
 
-* Build and update your production security settings from the Kibana app (will be saved in index)
-* Protect the ".readonlyrest" Kibana index with an ACL rule
+*   Build and update your production security settings from the Kibana app (will be saved in index)
+    
+*   Protect the ".readonlyrest" Kibana index with an ACL rule
+    
 
 #### Loading settings: order of precedence
 
 As you read, there are two possible places where the settings can be read from:
 
-* `readonlyrest.yml` a file the user needs to create in the same directory where `elasticsearch.yml` is found.
-* `.readonlyrest` index. Our Kibana plugins' GUI (PRO/Enterprise) is programmed to write this index.
+*   `readonlyrest.yml` a file the user needs to create in the same directory where `elasticsearch.yml` is found.
+    
+*   `.readonlyrest` index. Our Kibana plugins' GUI (PRO/Enterprise) is programmed to write this index.
+    
 
 When the ES plugin boots up, it follows some logic to evaluate where to read the YAML settings from. The following diagram shows how that works.
 
-![config loading diagram](<../.gitbook/assets/ror\_config\_loading\_diagram (1) (1).png>)
+![config loading diagram](../.gitbook/assets/ror_config_loading_diagram%20(1)%20(1).png)
 
 #### Malformed in-index settings
 
@@ -417,9 +434,12 @@ readonlyrest:
 
 Imagine you run Elasticsearch and Kibana on the same host:
 
-* the Kibana user login request comes to Elasticsearch
-* Credentials are wrong, and the first block does not match
-* The second block is then evaluated, and the request is allowed because of its origin IP
+*   the Kibana user login request comes to Elasticsearch
+    
+*   Credentials are wrong, and the first block does not match
+    
+*   The second block is then evaluated, and the request is allowed because of its origin IP
+    
 
 As you can see, Elasticsearch has no user related information (metadata) to return to Kibana, and the error “problem with the configuration of authentication ” is shown.
 
@@ -435,7 +455,6 @@ readonlyrest.yml
   headers: [ "~x-from-kibana:true" ]
 ```
 
-
 kibana.yml (append)
 
 ```yaml
@@ -450,11 +469,11 @@ Previously we needed to keep track and document all Kibana apps IDs, and you had
 
 For example, this is how you hide the whole Enterprise Search submenu.
 
-![kibana\_hide\_apps: \["Enterprise Search"\]](<../.gitbook/assets/image (2).png>)
+![kibana_hide_apps: ["Enterprise Search"]](../.gitbook/assets/image%20(2).png)
 
 And this is how you hide only one app from the Enterprise Search menu:
 
-![kibana\_hide\_apps: \["Enterprise Search|Workplace Search"\]](<../.gitbook/assets/image (3).png>)
+![kibana_hide_apps: ["Enterprise Search|Workplace Search"]](../.gitbook/assets/image%20(3).png)
 
 More generally, either of these two ways will work:
 
@@ -479,8 +498,7 @@ kibana_hide_apps: [ "/^Analytics\\|(?!(Maps)$).*$/"]
 
 In this case, all analytics apps will be hidden except `Maps`
 
-**⚠️IMPORTANT** Pipe operator needs to be escaped correctly when it's declared in the regular expression `\\|`.
-The regular expression must be declared between double quote `"/<regular-expression/"`
+**⚠️IMPORTANT** Pipe operator needs to be escaped correctly when it's declared in the regular expression `\\|`. The regular expression must be declared between double quote `"/<regular-expression/"`
 
 You can also hide all submenus except specified values
 
@@ -510,7 +528,7 @@ To hide the `Edit security settings` button for the specific user you need to pr
 kibana_hide_apps: [ "ROR Security Settings" ]
 ```
 
-![Hiding ReadonlyREST menu elements](../.gitbook/assets/hiding\_readonlyrest\_menu\_elements.png)
+![Hiding ReadonlyREST menu elements](../.gitbook/assets/hiding_readonlyrest_menu_elements.png)
 
 ### Kibana configuration
 
@@ -541,8 +559,10 @@ ROR for Elasticsearch can delegate authentication to a reverse proxy which will 
 
 > Today, it's possible to skip the regular ROR login form and use the "delegated authentication" technique in ROR for Kibana as well.
 
-1. Configure ROR for ES to expect delegated authentication (see [`proxy_auth` rule](../elasticsearch.md#proxy\_auth-)) in ROR for ES documentation.
-2. Open up `conf/kibana.yml` and add `readonlyrest_kbn.proxy_auth_passthrough: true`
+1.  Configure ROR for ES to expect delegated authentication (see `proxy_auth` rule) in ROR for ES documentation.
+    
+2.  Open up `conf/kibana.yml` and add `readonlyrest_kbn.proxy_auth_passthrough: true`
+    
 
 Now ROR for Kibana will **skip the login form entirely**, and will only require that all incoming requests must carry a `X-Forwarded-User` header containing the user's name. Based on this identity, ROR for Kibana will build an encrypted cookie and handle your session normally.
 
@@ -556,8 +576,10 @@ However, when the authentication is delegated to a proxy, the logout button need
 
 For this, ROR for Kibana offers a way to customize the logout button's URL:
 
-1. Find a link that will delete the reverse proxy's user session
-2. Open up `conf/kibana.yml` and add `readonlyrest_kbn.custom_logout_link: https://..../logout`
+1.  Find a link that will delete the reverse proxy's user session
+    
+2.  Open up `conf/kibana.yml` and add `readonlyrest_kbn.custom_logout_link: https://..../logout`
+    
 
 Now users that gained a session through delegated auth, can also click on the logout button in ROR for kibana and actually exit their session.
 
@@ -569,8 +591,10 @@ When you delegate authentication to an external service, you can tell ReadonlyRE
 
 To enable this:
 
-1. Find your authentication proxy or identity provider login URL for the ROR app
-2. Open up `conf/kibana.yml` and add `readonlyrest_kbn.custom_login_link: "https://../login"`
+1.  Find your authentication proxy or identity provider login URL for the ROR app
+    
+2.  Open up `conf/kibana.yml` and add `readonlyrest_kbn.custom_login_link: "https://../login"`
+    
 
 The advantage of this approach is a streamlined user experience for users that login with an external IdP. The disadvantage is that you give up the possibility to login as a local user in ROR, as the login form will be always skipped.
 
@@ -588,8 +612,10 @@ Alternatively to typing in credentials in the standard login form, it is possibl
 
 To enable this feature in ReadonlyREST, you need to:
 
-* Have JWT authentication configured in ReadonlyREST (modifying `readonlyrest.yml` or the cluster wide settings UI in the Kibana plugin). [See how](../elasticsearch.md#json-web-token-jwt-auth).
-* Specify the query parameter name in `kibana.yml` by adding the line `readonlyrest_kbn.jwt_query_param: "jwt"` as a string, in our case "jwt".
+*   Have JWT authentication configured in ReadonlyREST (modifying `readonlyrest.yml` or the cluster wide settings UI in the Kibana plugin). [See how](../elasticsearch.md#json-web-token-jwt-auth).
+    
+*   Specify the query parameter name in `kibana.yml` by adding the line `readonlyrest_kbn.jwt_query_param: "jwt"` as a string, in our case "jwt".
+    
 
 #### In Action
 
@@ -601,10 +627,14 @@ http://kibana:5601/login?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMj
 
 The following will happen:
 
-1. The Kibana plugin will forward the JWT token found in the query parameter into the `Authorization` header in a request to Elasticsearch.
-2. Elasticsearch will cryptographically authenticate and resolve the user's identity from the JWT claims.
-3. Kibana will write an encrypted cookie in your browser and use that from now on for the length of the authenticated session. From here onwards, the session management will be identical to the normal login form flow.
-4. When the user presses logout, Kibana will delete the cookie and redirect you to the login form, or whatever link you configured as `readonlyrest_kbn.custom_logout_link`.
+1.  The Kibana plugin will forward the JWT token found in the query parameter into the `Authorization` header in a request to Elasticsearch.
+    
+2.  Elasticsearch will cryptographically authenticate and resolve the user's identity from the JWT claims.
+    
+3.  Kibana will write an encrypted cookie in your browser and use that from now on for the length of the authenticated session. From here onwards, the session management will be identical to the normal login form flow.
+    
+4.  When the user presses logout, Kibana will delete the cookie and redirect you to the login form, or whatever link you configured as `readonlyrest_kbn.custom_logout_link`.
+    
 
 **Deep linking with JWT**
 
@@ -648,12 +678,12 @@ server.ssl.supportedProtocols: ["TLSv1.2", "TLSv1.3"]
 
 ### Secure cookies
 
-ReadonlyREST will set the "secure" flag to its Kibana session cookie ("ror-cookie") automatically when SSL is enabled in Kibana.\
-\
+ReadonlyREST will set the "secure" flag to its Kibana session cookie ("ror-cookie") automatically when SSL is enabled in Kibana.  
+  
 This is because modern browsers like Chrome won't accept "secure"-flagged cookies if the website is not HTTPS).
 
-However, a common situation is when SSL is configured in a reverse proxy (SSL termination): so the browser will interact with Kibana using HTTPS. But because ROR doesn't know it, it will still serve session cookies without the "secure" flag.\
-\
+However, a common situation is when SSL is configured in a reverse proxy (SSL termination): so the browser will interact with Kibana using HTTPS. But because ROR doesn't know it, it will still serve session cookies without the "secure" flag.  
+  
 In this case, you can force ReadonlyREST to create "secure"-flagged cookies by adding this line in `kibana.yml`:
 
 ```
@@ -670,17 +700,20 @@ The audit log feature is widely described in [📖docs for Elasticsearch plugin]
 
 In the _Audit_ tab of the ReadonlyREST Kibana app, there is a button that automatically creates a dashboard with some audit log specific visualizations.
 
-![audit log tab](<../.gitbook/assets/audit\_tab (1) (1).png>)
+![audit log tab](../.gitbook/assets/audit_tab%20(1)%20(1).png)
 
 Click the _Load_ button to load the dashboard and visualizations. An _Override_ checkbox allows to reload the default dashboard and visualizations. It will override any previously loaded audit log dashboard.
 
-![loading visualization](<../.gitbook/assets/load\_audit\_dashboard (1) (1) (1) (1) (4) (6) (7) (10) (15).png>)
+![loading visualization](../.gitbook/assets/load_audit_dashboard%20(1)%20(1)%20(1)%20(1)%20(4)%20(6)%20(7)%20(10)%20(15).png)
 
 In detail, this feature creates three Kibana "saved objects":
 
-* an index pattern for `readonlyrest_audit-*`
-* a dashboard called `ReadonlyREST Audit Log`
-* some visualizations
+*   an index pattern for `readonlyrest_audit-*`
+    
+*   a dashboard called `ReadonlyREST Audit Log`
+    
+*   some visualizations
+    
 
 ### Dashboard
 
@@ -746,17 +779,23 @@ readonlyrest_kbn.auth:
     # issuer: saml_sso_idp
 ```
 
-* `issuer`: issuer string to supply to identity provider during sign on request. Defaults to 'ror'
-* `disableRequestedAuthnContext`: if truthy, do not request a specific authentication context. This is known to help when authenticating against Active Directory (AD FS) servers.
-* `decryptionPvk`: Service Provider Private Key. Private key that will be used to attempt to decrypt any encrypted assertions that are received.
-* `cert`: The downloadable certificate in IDP Metadata (file, absolute path) or single line string value
+*   `issuer`: issuer string to supply to identity provider during sign on request. Defaults to 'ror'
+    
+*   `disableRequestedAuthnContext`: if truthy, do not request a specific authentication context. This is known to help when authenticating against Active Directory (AD FS) servers.
+    
+*   `decryptionPvk`: Service Provider Private Key. Private key that will be used to attempt to decrypt any encrypted assertions that are received.
+    
+*   `cert`: The downloadable certificate in IDP Metadata (file, absolute path) or single line string value
+    
 
 For advanced SAML options, see [passport-saml documentation](https://github.com/bergie/passport-saml).
 
 ### Identity provider side
 
-1. Enter the settings of your identity provider, create a new app.
-2. Configure it using the information found by connecting to `http://my.public.hostname.com/ror_kbn_saml_serv1/metadata.xml`
+1.  Enter the settings of your identity provider, create a new app.
+    
+2.  Configure it using the information found by connecting to `http://my.public.hostname.com/ror_kbn_saml_serv1/metadata.xml`
+    
 
 Example response:
 
@@ -771,10 +810,14 @@ Example response:
 </EntityDescriptor>
 ```
 
-1. Create some users and some groups in the identity provider app
-2. Check the user profile parameter names that the identity provider uses during the assertion callback ( **TIP**: set kibana in debug mode so ReadonlyREST will print the user profile).
-3. Match the name of the parameter used by the identity provider to carry the unique user ID (in the assertion message) to the `usernameParameter` kibana YAML setting.
-4. If you want to use SAML for authorization, take care of matching also the `groupsParameter` to the parameter name found in the assertion message to the kibana YAML setting.
+1.  Create some users and some groups in the identity provider app
+    
+2.  Check the user profile parameter names that the identity provider uses during the assertion callback ( **TIP**: set kibana in debug mode so ReadonlyREST will print the user profile).
+    
+3.  Match the name of the parameter used by the identity provider to carry the unique user ID (in the assertion message) to the `usernameParameter` kibana YAML setting.
+    
+4.  If you want to use SAML for authorization, take care of matching also the `groupsParameter` to the parameter name found in the assertion message to the kibana YAML setting.
+    
 
 ## OpenID Connect (OIDC)
 
@@ -838,7 +881,7 @@ readonlyrest:
       signature_key: "my_shared_secret_kibana1_(min 256 chars)" # <- use environmental variables for better security!
 ```
 
-You may also use any custom claim from the OIDC `userinfo` token in ACL rules by using `{{jwt:assertion.<path_to_your_claim>}}` syntax. See the [dedicated section ](<../elasticsearch.md#Dynamic variables from JWT claims>)for more information. ( **TIP** : Do not forget the `assertion` prefix in front of you jsonpath. )
+You may also use any custom claim from the OIDC `userinfo` token in ACL rules by using `{{jwt:assertion.<path_to_your_claim>}}` syntax. See the [dedicated section](../elasticsearch.md#Dynamic%20variables%20from%20JWT%20claims) for more information. ( **TIP** : Do not forget the `assertion` prefix in front of you jsonpath. )
 
 ### Kibana side
 
@@ -868,13 +911,20 @@ readonlyrest_kbn.auth:
 
 ### Identity provider side
 
-1. Enter the settings interface of your identity provider, and create a new OpenID app .
-2. The redirect URL should be configured as `http://localhost:5601/*` assuming kibana is listening on localhost and on the default port.
-3. Create some users and some groups in the identity provider if not present.
-4. Check the user profile parameter names that the identity provider uses during the assertion callback ( **TIP**: set readonlyrest\_kbn.logLevel: debug\` in kibana.yml, so you will see the user profile how it's received from the identity provider right in the logs).
-5. Match the name of the parameter used by the identity provider to carry the unique user ID (in the assertion message) to the `usernameParameter` kibana YAML setting.
-6. If you want to use OpenID for authorization, take care of matching also the `groupsParameter` to the parameter name found in the assertion message to the kibana YAML setting. ( **TIP**: the `groupsParameter` must be present in the `userinfo` token of your OIDC provider.)
-7. If kibana is accessed through a reverse proxy, kibanaExternalHost should be configured with the external hostname. if omitted, the default value is equals to `server.host:server.port` defined in kibana.yml. ( This parameter can be used also when kibana is bound to 0.0.0.0, for example, if using docker.)
+1.  Enter the settings interface of your identity provider, and create a new OpenID app .
+    
+2.  The redirect URL should be configured as `http://localhost:5601/*` assuming kibana is listening on localhost and on the default port.
+    
+3.  Create some users and some groups in the identity provider if not present.
+    
+4.  Check the user profile parameter names that the identity provider uses during the assertion callback ( **TIP**: set readonlyrest\_kbn.logLevel: debug\` in kibana.yml, so you will see the user profile how it's received from the identity provider right in the logs).
+    
+5.  Match the name of the parameter used by the identity provider to carry the unique user ID (in the assertion message) to the `usernameParameter` kibana YAML setting.
+    
+6.  If you want to use OpenID for authorization, take care of matching also the `groupsParameter` to the parameter name found in the assertion message to the kibana YAML setting. ( **TIP**: the `groupsParameter` must be present in the `userinfo` token of your OIDC provider.)
+    
+7.  If kibana is accessed through a reverse proxy, kibanaExternalHost should be configured with the external hostname. if omitted, the default value is equals to `server.host:server.port` defined in kibana.yml. ( This parameter can be used also when kibana is bound to 0.0.0.0, for example, if using docker.)
+    
 
 ## Load balancers
 
@@ -894,15 +944,24 @@ readonlyrest_kbn.whitelistedPaths: [".*/api/status$"]
 
 Each Kibana node stores user sessions in-memory. This will cause problems when using multiple Kibana instances behind a load balancer (especially without sticky sessions), as there would be no synchronization between nodes' sessions cache. To avoid this, session synchronization via an Elasticsearch index should be enabled. Follow these steps:
 
-1. Come up with a string of at least 32 characters length or more to be used as the shared cookie encryption key, called `cookiePass`.
-2. Open up `conf/kibana.yml` and add:
-   * `readonlyrest_kbn.cookiePass: "generatedStringIn1step"` (example: "12345678901234567890123456789012")
-   * `readonlyrest_kbn.cookieName` (custom cookie name - this property is optional, if not specified default cookie name would be `rorCookie`)
-   * `readonlyrest_kbn.store_sessions_in_index: true` (enable session storage in index)
-   * `readonlyrest_kbn.sessions_index_name: "someCustomIndexName"` (index name - this property is optional, if not specified default index would be `.readonlyrest_kbn_sessions`)
-   * `readonlyrest_kbn.sessions_refresh_after: 5000` (time in milliseconds, describes how often sessions should be fetched from ES and refreshed for each node - optional, by default 2 seconds)
-   * `readonlyrest_kbn.sessions_probe_interval_seconds: 120` (default 60s) how often should the browser poll Kibana to check if their session is still valid. Raise this value if you connect to Kibana through slow networks (i.e. VPN), or have very slow loading dashboards.
-3. Add the above config in all Kibana nodes behind the load balancer, and restart them.
+1.  Come up with a string of at least 32 characters length or more to be used as the shared cookie encryption key, called `cookiePass`.
+    
+2.  Open up `conf/kibana.yml` and add:
+    
+    *   `readonlyrest_kbn.cookiePass: "generatedStringIn1step"` (example: "12345678901234567890123456789012")
+        
+    *   `readonlyrest_kbn.cookieName` (custom cookie name - this property is optional, if not specified default cookie name would be `rorCookie`)
+        
+    *   `readonlyrest_kbn.store_sessions_in_index: true` (enable session storage in index)
+        
+    *   `readonlyrest_kbn.sessions_index_name: "someCustomIndexName"` (index name - this property is optional, if not specified default index would be `.readonlyrest_kbn_sessions`)
+        
+    *   `readonlyrest_kbn.sessions_refresh_after: 5000` (time in milliseconds, describes how often sessions should be fetched from ES and refreshed for each node - optional, by default 2 seconds)
+        
+    *   `readonlyrest_kbn.sessions_probe_interval_seconds: 120` (default 60s) how often should the browser poll Kibana to check if their session is still valid. Raise this value if you connect to Kibana through slow networks (i.e. VPN), or have very slow loading dashboards.
+        
+3.  Add the above config in all Kibana nodes behind the load balancer, and restart them.
+    
 
 ## Login screen tweaking
 
@@ -912,7 +971,9 @@ It is possible to customize the look of the login screen.
 
 ### Two column layout
 
-By default,the login form appears in a single column view. ![one column](blob:https://imgur.com/f7514ca2-7f8f-4f96-aecd-09e7ea636b62)
+By default,the login form appears in a single column view.
+
+![one column](blob:https://imgur.com/f7514ca2-7f8f-4f96-aecd-09e7ea636b62)
 
 But once title and subtitle are configured, it will switch to two columns for making room to the new text.
 
@@ -1098,10 +1159,8 @@ According to [Wikipedia](https://en.wikipedia.org/wiki/Impersonator):
 
 > An impersonator is someone who imitates or copies the behavior or actions of another.
 
-So, an impersonation can be understood as imitating behaviors or actions.
-In the context of ReadonlyREST: one user could imitate an action 
-of another user. Why would we want it? Let's suppose the first user is 
-an admin, who has just configured access for a new user. They would like 
-to know if the rule(s) are configured correctly. And here comes the impersonation feature. The admin can impersonate given user in Kibana and see what the user would see if they logged in themselves. 
+So, an impersonation can be understood as imitating behaviors or actions. In the context of ReadonlyREST: one user could imitate an action of another user. Why would we want it? Let's suppose the first user is an admin, who has just configured access for a new user. They would like to know if the rule(s) are configured correctly. And here comes the impersonation feature. The admin can impersonate given user in Kibana and see what the user would see if they logged in themselves.
 
 ROR plugins support impersonation and provide UI for configuring cluster before using it. Visit the [impersonation details page](./details/impersonation.md) to know more.
+
+Test spinal.
